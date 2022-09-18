@@ -13,8 +13,8 @@ abstract class MongoModel<T> implements IModel<T> {
   }
 
   // Métodos abaixo por ora servindo como placeholders
-  public async read(): Promise<any> {
-    return this;
+  public async read(): Promise<T[]> {
+    return this._model.find();
   }
 
   public async readOne(): Promise<any> {
