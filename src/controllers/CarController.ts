@@ -38,6 +38,13 @@ class CarController {
 
     return res.status(200).json(car);
   }
+
+  public async update(req: Request, res: Response): Promise<Response<ICar | null>> {
+    const { params: { id }, body } = req;
+    const carUpdated = await this._service.update(id, body);
+  
+    return res.status(200).json(carUpdated);
+  }
 }
 
 export default CarController;
