@@ -1,5 +1,6 @@
-import { Model } from 'mongoose';
+import { isValidObjectId, Model } from 'mongoose';
 import { IModel } from '../interfaces/IModel';
+import { ErrorTypes } from '../middlewares/errorCatalog';
 
 abstract class MongoModel<T> implements IModel<T> {
   private _model: Model<T>;
@@ -12,15 +13,17 @@ abstract class MongoModel<T> implements IModel<T> {
     return this._model.create({ ...obj });
   }
 
-  // Métodos abaixo por ora servindo como placeholders
   public async read(): Promise<T[]> {
     return this._model.find();
   }
 
-  public async readOne(): Promise<any> {
-    return this;
+  public async readOne(_id: string): Promise<T | null> {
+    if (!isValidObjectId(_id)) throw Error(ErrorTypes.InvalidMongoId);
+
+    return this._model.findOne({ _id });
   }
 
+  // Métodos abaixo por ora servindo como placeholders
   public async update(): Promise<any> {
     return this;
   }
